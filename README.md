@@ -8,14 +8,17 @@ In the project directory, you can run:
 
 ### Client part
 
-yarn start
+##### yarn start
+port: 3000
 
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ### Server part
 
-yarn dev - http (longpulling)
-yarn dev2 - evetnsource
-yarn dev3 - websocket
+port: 5000
+
+##### yarn dev - longpulling
+##### yarn dev2 - evetnsource
+##### yarn dev3 - websocket
 
 ## Learn More
