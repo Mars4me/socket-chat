@@ -1,14 +1,18 @@
 import LongPulling from './LongPulling';
 import EventSourcesing from './EventSourcesing';
 import Websocket from './Websocket';
+import Parallax from './Parallax';
 
 function App() {
     return (
-        <div className="App">
+        <>
             {/* <LongPulling /> */}
             {/* <EventSourcesing /> */}
-            <Websocket />
-        </div>
+
+            <Parallax>
+                <Websocket />
+            </Parallax>
+        </>
     );
 }
 

@@ -34,61 +34,62 @@ const Websocket = () => {
     }
 
     const sendMessage = async () => {
-        const message = {
-            username,
-            message: value,
-            id: Date.now(),
-            event: 'message',
-        };
-        socket.current.send(JSON.stringify(message));
-        setValue('');
+        if (value) {
+            const message = {
+                username,
+                message: value,
+                id: Date.now(),
+                event: 'message',
+            };
+            socket.current.send(JSON.stringify(message));
+            setValue('');
+        }
+
     };
 
     if (!connected) {
-        return (
-            <div className="center">
-                <div className="form">
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        placeholder="Enter your name"
-                    />
-                    <button onClick={connect}>Enter</button>
-                </div>
-            </div>
+        return (<>
+            <h3>Log in</h3>
+            <form className="form" onSubmit={e => { e.preventDefault(); connect() }}>
+                <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter your name"
+                />
+                <button type="submit">Enter</button>
+            </form>
+        </>
         );
     }
 
     return (
-        <div className="center">
-            <div>
-                <form
-                    className="form"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        sendMessage();
-                    }}
-                >
-                    <p style={{ margin: '1rem auto 2rem auto', fontSize: '1rem', textTransform: 'uppercase' }}>{username}</p>
-                    <input value={value} onChange={(e) => setValue(e.target.value)} type="text" />
-                    <button type="submit">Отправить</button>
-                </form>
-                <div className="messages">
-                    {messages.map((mess) => (
-                        <div key={mess.id}>
-                            {mess.event === 'connection' ? (
-                                <div className="connection_message">User with {mess.username} connected</div>
-                            ) : (
-                                <div className="message">
-                                    {mess.username}. {mess.message}
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
+        <>
+            <h3>Welcome {username}</h3>
+            <form
+                className="form"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    sendMessage();
+                }}
+            >
+                <input value={value} onChange={(e) => setValue(e.target.value)} type="text" />
+                <button type="submit">Отправить</button>
+            </form>
+            <div className="messages">
+                {messages.map((mess) => (
+                    <div key={mess.id}>
+                        {mess.event === 'connection' ? (
+                            <div className="connection_message">User {mess.username || 'unknown'} connected</div>
+                        ) : (
+                            <div className="message">
+                                <b style={{ color: 'rgba(255,255,255, .8)' }}>{mess.username}</b>. {mess.message}
+                            </div>
+                        )}
+                    </div>
+                ))}
             </div>
-        </div>
+        </>
     );
 };
 
